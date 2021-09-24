@@ -1,0 +1,62 @@
+/flag.txt
+flag in /fllllllllllllag
+
+/hints.txt
+md5(cookie_secret+md5(filename))
+
+
+网址显示/file?filename=/welcome.txt&filehash=750c88623fd23d5bca6f808f59435f97
+所以只要获取tornado cookie_secret就可以构造payload
+
+网址随意输入显示 /error?msg=Error
+此处msg可以注入{{}}
+过滤了1*7
+
+error?msg={{handler.settings}}获取到cookie_secret 
+md5加密一下获得payload，得到flag
+
+
+
+
+tornado 官方文章（翻译后）：
+
+#https://www.tornadoweb.org/en/stable/web.html?highlight=settings#tornado.web.Application.settings
+
+
+settings
+传递给构造函数的其他关键字参数保存在字典中，在文档中通常称为“应用程序”settings设定”。 设定值用于自定义Tornado的各个方面（尽管在某些情况下，可以通过覆盖的子类中的方法来进行更丰富的自定义RequestHandler）。一些应用程序还喜欢使用settings字典作为使特定于应用程序的设置可供处理程序使用的方式，而无需使用全局变量。在龙卷风中使用的设置如下所述。
+
+一般 设定：
+
+autoreload：如果为True，则在任何源文件发生更改时，服务器进程将重新启动，如调试模式和自动重载中所述。这个选项是Tornado 3.2中的新增功能；以前，此功能由debug设置控制。
+debug：几种调试模式的简写 设定，在调试模式和自动重载中进行了描述。设置debug=True相当于autoreload=True，compiled_template_cache=False， static_hash_cache=False，serve_traceback=True。
+default_handler_class和default_handler_args：如果找不到其他匹配项，将使用此处理程序；使用它来实现自定义404页面（Tornado 3.2中的新增功能）。
+compress_response：如果为True，则将自动压缩文本格式的响应。龙卷风4.0的新功能。
+gzip：compress_response从Tornado 4.0开始不推荐使用的别名。
+log_function：在每次记录结果的请求结束时都会调用此函数（带有一个参数，即 RequestHandler对象）。默认实现将写入logging模块的根记录器。也可以通过覆盖进行自定义Application.log_request。
+serve_traceback：如果为True，则默认错误页面将包含错误的回溯。这个选项是Tornado 3.2中的新增功能；以前，此功能由debug设置控制。
+ui_modules和ui_methods：可以设置UIModule为模板的UI方法或UI方法的映射。可以设置为模块，字典或模块和/或字典列表。有关更多详细信息，请参见UI模块。
+websocket_ping_interval：如果设置为数字，则每隔n秒会对所有网络套接字执行一次ping操作。这可以帮助通过关闭空闲连接的某些代理服务器使连接保持活动状态，并且可以检测websocket是否在未正确关闭的情况下发生故障。
+websocket_ping_timeout：如果设置了ping间隔，并且服务器在此秒内没有收到“ pong”，它将关闭websocket。默认值为ping间隔的三倍，最少30秒。如果未设置ping间隔，则忽略。
+认证与安全 设定：
+
+cookie_secret：由RequestHandler.get_secure_cookie 和set_secure_cookie用于签署Cookie。
+key_version：set_secure_cookie 当cookie_secret 密钥字典为密钥字典时，由requestHandler用于使用特定密钥对cookie进行签名。
+login_url：authenticated如果用户未登录，装饰器将重定向到该URL。可以通过重写进一步自定义RequestHandler.get_login_url
+xsrf_cookies：如果为True，则将启用跨站点请求伪造保护。
+xsrf_cookie_version：控制此服务器生成的新XSRF cookie的版本。通常应保留默认值（它将始终是受支持的最高版本），但在版本转换期间可能会暂时设置为较低的值。Tornado 3.2.2中的新功能，它引入了XSRF cookie版本2。
+xsrf_cookie_kwargs：可以设置RequestHandler.set_cookie 为XSRF cookie传递给其他参数的字典。
+twitter_consumer_key，twitter_consumer_secret， friendfeed_consumer_key，friendfeed_consumer_secret， google_consumer_key，google_consumer_secret， facebook_api_key，facebook_secret：所用的 tornado.auth模块来验证各种API。
+模板 设定：
+
+autoescape：控制模板的自动转义。可以设置为None禁用转义，或者设置为 所有输出都应通过的函数的名称。默认为"xhtml_escape"。可以使用指令在每个模板的基础上进行更改。{% autoescape %}
+compiled_template_cache：默认为True; 是否False 将根据每个请求重新编译模板。这个选项是Tornado 3.2中的新增功能；以前，此功能由debug设置控制。
+template_path：包含模板文件的目录。可以通过覆盖进一步定制RequestHandler.get_template_path
+template_loader：分配给的实例 tornado.template.BaseLoader以自定义模板加载。如果使用此设置，则template_path和autoescape 设定被忽略。可以通过覆盖进一步自定义 RequestHandler.create_template_loader。
+template_whitespace：控制模板中空格的处理；请参阅tornado.template.filter_whitespace以获取允许的值。龙卷风4.3的新功能。
+静态文件 设定：
+
+static_hash_cache：默认为True; 是否False 将在每个请求上重新计算静态网址。这个选项是Tornado 3.2中的新增功能；以前，此功能由debug设置控制。
+static_path：将提供静态文件的目录。
+static_url_prefix：静态文件的网址前缀，默认为"/static/"。
+static_handler_class，static_handler_args：可以设置为对静态文件使用其他处理程序，而不使用默认处理程序 tornado.web.StaticFileHandler。 static_handler_args（如果已设置），则应为要传递给处理程序initialize方法的关键字参数字典。

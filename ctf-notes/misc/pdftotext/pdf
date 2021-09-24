@@ -1,0 +1,10 @@
+将pdf 用 “pdftotext” 指令转换成text文件获得flag。
+
+
+
+——————————————————————————————————————————————————
+其他poppler-utils转换pdf指令
+
+pdf2dsc      pdffonts     pdfseparate  pdftohtml    pdftotext
+pdf2ps       pdfimages    pdfsig       pdftoppm     pdfunite
+pdfdetach    pdfinfo      pdftocairo   pdftops       

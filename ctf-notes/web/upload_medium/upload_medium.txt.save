@@ -1,0 +1,28 @@
+点击文件后没有提示信息，提交后显示类型错误。
+确认提交后判断文件类型。
+
+先上传jpeg 和php对比消息头
+
+jpeg---------------------
+Content-Disposition: form-data; name="uploaded"; filename="1.jpeg"
+Content-Type: image/jpeg
+
+php---------------------
+Content-Disposition: form-data; name="uploaded"; filename="1.php"
+Content-Type: application/x-php
+
+修改消息头 content-Type
+
+上传成功。
+
+
+source:      判断部分
+
+ if( ( $uploaded_type == "image/jpeg" || $uploaded_type == 
+"image/png" ) && ( $uploaded_size < 100000 ) )
+
+第二种方法：文件包含 第三种方法：截断绕过----------------- 
+
+在php版本小于5.3.4的服务器中，当Magic_quote_gpc选项为off时 
+，可以在文件名中使用%00截断， 
+所以可以把上传文件命名为hack.php%00.png。

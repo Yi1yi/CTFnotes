@@ -1,0 +1,84 @@
+题目纲要：要求先用get上传a=1的值，然后用post上传b=2
+解题思路: ?a=1后在浏览器开发者工具的网络里修改上传方式POST然后增加请求主题b=2（先将get方式增加到URL然后改变上传method)
+
+使用post方法，附带get的数据（post和get传输数据的头文件）
+——————————————————————————————————————————————————————————————————————————————————————————
+POST /?a=1 HTTP/1.1
+
+Host: 220.249.52.133:45336
+
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+
+Accept-Encoding: gzip, deflate
+
+Content-Type: application/x-www-form-urlencoded
+
+Content-Length: 3
+
+Connection: close
+
+Upgrade-Insecure-Requests: 1
+
+
+
+b=2
+
+------------------------------------------------------------------------------------------
+
+
+
+使用get传输
+——————————————————————————————————————————————————————————————————————————————————————————
+GET /?a=1 HTTP/1.1
+
+Host: 220.249.52.133:45336
+
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+
+Accept-Encoding: gzip, deflate
+
+Connection: close
+
+Upgrade-Insecure-Requests: 1
+
+Cache-Control: max-age=0
+
+——————————————————————————————————————————————————————————————————————————————————————————————
+
+
+使用post
+————————————————————————————————————————————————————————————————————————————————————————————
+
+POST / HTTP/1.1
+
+Host: 220.249.52.133:45336
+
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+
+Accept-Encoding: gzip, deflate
+
+Connection: close
+
+Upgrade-Insecure-Requests: 1
+
+Cache-Control: max-age=0
+
+Content-Type: application/x-www-form-urlencoded
+
+Content-Length: 3
+
+
+
+b=2

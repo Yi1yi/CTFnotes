@@ -1,0 +1,13 @@
+需要绕过__wakeup和正则匹配
+
+_wakeup()很容易绕过，只需要令序列化字符串中标识变量数量的值大于实际变量
+即可绕过__wakeup()函数正则匹配这里匹配的是O:4，我们用O:+4即可绕过
+
+这里有个坑，这里的file变量为私有变量，所以序列化之后的字符串开头结
+尾各有一个空白字符（即%00），字符串长度也比实际长度大2，如果将序列化结果
+复制到在线的base64网站进行编码可能就会丢掉空白字符，所以这里直接在php代
+码里进行编码。类似的还有protected类型的变量，序列化之后字符串首部会加上%00*%00
+
+
+serialize=  O:+4:"Demo":2:{s:10:" Demo file";s:8:"fl4g.php";}
+payload=  TzorNDoiRGVtbyI6Mjp7czoxMDoAIERlbW8AZmlsZSI7czo4OiJmbDRnLnBocCI7fQ==

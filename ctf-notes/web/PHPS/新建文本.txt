@@ -1,0 +1,23 @@
+打开页面显示
+
+Can you anthenticate to this website?
+
+——————网易翻译：你能登录这个网站吗?————————
+
+这是关于PHPS
+phps文件就是php的源代码文件，通常用于提供给用户（访问者）查看php代码，因为用户无法直接通过Web浏览器看到php文件的内容，所以需要用phps文件代替。其实，只要不用php等已经在服> 务器中注册过的MIME类型为文件即可，但为了国际通用，所以才用了phps文件类型。 它的MIME类型为：text/html, application/x-httpd-php-source, application/x-httpd-php3-source。
+打开index.phps后，得到:
+____________________________
+not allowed!
+
+"); exit(); } $_GET[id] = urldecode($_GET[id]); if($_GET[id] == "admin") { echo "
+
+Access granted!
+"; echo "
+
+Key: xxxxxxx
+"; } ?> Can you anthenticate to this website? 
+______________________________________________
+
+需要传参admin,因为get传参时，会自动进行一次url编码，故需要两次url编码
+退出index.phps 进行get传参获得flag

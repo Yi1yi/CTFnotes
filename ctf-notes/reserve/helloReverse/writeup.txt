@@ -1,0 +1,7 @@
+wine 运行提示输入验证码
+	please input your serial:
+string 查找有用数据。最后一行
+	437261636b4d654a757374466f7246756e
+	判断是十六进制，转成ascii
+		CrackMeJustForFun
+就是flag

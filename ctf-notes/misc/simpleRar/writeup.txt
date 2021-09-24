@@ -1,0 +1,12 @@
+题目ps:双图层
+
+unrar提示secret.png 损坏。进hex 
+按照######！https://blog.csdn.net/Claming_D/article/details/105899397
+文件格式修改png文件头。解压。
+file发现png为gif格式修改，丢ps。
+分离双图层
+都丢stegsolve发现两个各一半的二维码
+ps修复、合成。
+扫描出二维码
+
+

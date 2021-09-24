@@ -1,0 +1,4 @@
+无论怎么修改消息头都没用。审计代码 比medium 多验证了 
+
+substr( $uploaded_name, strrpos( $uploaded_name, '.' ) + 1);
+

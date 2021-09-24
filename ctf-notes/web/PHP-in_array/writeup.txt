@@ -1,0 +1,11 @@
+ in_array：(PHP 4, PHP 5, PHP 7)
+  功能：检查数组中是否存在某个值
+  定义： bool in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] )
+  在 $haystack中搜索 $needle，如果第三个参数 $strict的值为 TRUE，则 in_array()函数会进行强检查
+，检查 $needle的类型是否和 $haystack中的相同。如果找到 $haystack，则返回 TRUE，否则返回 FALSE。
+
+题中没有设置第三个参数，弱比较，可以绕过。
+
+mb_substr截取字符串的第一个'?'后比较，php中在字符串的最后连接'?',自己在字符串中构造'?'
+
+最终payload：    ?file=hint.php?../../../../../../ffffllllaaaagggg

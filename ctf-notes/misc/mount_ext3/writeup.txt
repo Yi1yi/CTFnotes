@@ -1,0 +1,10 @@
+file 后格式: Linux rev 1.0 ext3 filesystem data, 
+UUID=cf6d7bff-c377-403f-84ae-956ce3c99aaa (needs journal 
+recovery)
+
+创建一个文件夹作为mount点
+提权sudo，mount文件到文件夹：
+	sudo mount fxxxxxxxx ./mountpoint 
+进到文件夹，find -name flag*
+找到在O7xxxx文件夹里。
+cd ，cat 得到flag。
